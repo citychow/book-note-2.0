@@ -1,0 +1,55 @@
+<%- include('partials/header.ejs'); -%>
+<div> 
+    <form action="/new" method="post">
+        <button type="submit" class="btn btn-info">Add a book</button> 
+    </form>
+</div>
+
+<div>
+    <p>Sort by: <p>
+    <form action="/sort" method="post" class="d-flex gap-2">
+        <select class="form-select" name="sortByField" aria-label="Sort by">
+            <option value="date">Date</option>
+            <option value="rating">Rating</option>
+            <option value="bookname">Book Name</option>
+        </select>
+        <select class="form-select" name="sortOrder" aria-label="Order">
+            <option value="asc">>Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+        <button type="submit" class="btn btn-secondary" name="sortButton">Apply</button>
+    </form>
+</div>
+
+<div class="container mt-4">
+    <div class="row mt-2 d-flex justify-content-center">
+        <% if (listItems.length === 0) { %>
+            <p>No book reviews yet. Click "Add a book" to create your first review!</p>
+        <% } else { %>
+            <% listItems.forEach(item => { %>
+                <div class="col-lg-3 mb-3 card">
+                    <img src="<%= item.url %>" class="rounded-3 img-fluid text-center" alt="<%= item.name %>" loading="lazy">
+                    <p></p>
+                    <div style="height: 70px" class="align-content-center"><h4 class="text-center"><%= item.name %></h4></div>
+                    <div class="row d-flex mb-2"> 
+                        <div class="col-6"> Rating: <%= item.rating %> / 10  </div>
+                        <div class="col-6 text-end"><small><em><%= item.inputDate %></em></small></div>
+                    </div>
+                    <div class="row d-flex mb-2">
+                        <div class="col-12 overflow-hidden" style="height: 75px;"> <%= item.review %> </div>
+                    </div>
+                <p> View more </p>
+                    <div class="btn-group"> 
+                        <form action="/edit" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-secondary" name="editItemId" value="<%= item.id %>">Edit</button>
+                        </form> 
+                        <form action="/delete" onsubmit="return confirm('The book review of <%= item.name %> will be deleted and cannot be recovered. \nAre you sure?');" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" name="deleteItemId" value="<%= item.id %>">Delete</button>
+                        </form>
+                    </div> 
+                </div>
+            <% })} %>
+    </div> 
+</div> 
+<%- include('partials/footer.ejs'); -%>
+

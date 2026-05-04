@@ -1,0 +1,30 @@
+html {
+  padding: 2%;
+}
+
+body {
+  background-color: #ffcaa9;
+  margin: 0;
+  padding: 0;
+}
+
+/* .container {
+  background-color: rgb(191, 255, 255);
+  margin-top: 50px;
+  margin-bottom: 50px;
+} */
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 20px;
+}
+
+img {
+  max-width: 150px;
+  max-height: 350px;
+  margin: 20px;
+  float: center;
+}
