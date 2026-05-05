@@ -62,11 +62,17 @@ function getCoverUrl(isbn) {
 //function to sort list by field and order
 
 async function sortBy(list, sortByField, sortOrder) {
-    const result = await db.query("SELECT * FROM summary ORDER BY " + sortByField + " " + sortOrder);
-  list = result.rows; 
-  list.forEach(item => {
-    item.date = new Date(item.date).toDateString().split(" ").slice(1).join(" ");
-  });
+    const {data, error} = await supabase.from('book').select('*').order(sortByField, {ascending: sortOrder === 'asc'});
+    if (error) {
+        console.error("Error fetching sorted data from Supabase:", error);
+    } else {
+        list = data;
+        console.log("Sorted data fetched from Supabase:", data);
+    }
+    console.log("Sorting by:", sortByField, "Order:", sortOrder);
+//   list.forEach(item => {
+//     item.date = new Date(item.date).toDateString().split(" ").slice(1).join(" ");
+//   });
     return list;
 }
 
