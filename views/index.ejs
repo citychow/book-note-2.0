@@ -1,12 +1,7 @@
 <%- include('partials/header.ejs'); -%>
-<div> 
-    <form action="/new" method="post">
-        <button type="submit" class="btn btn-info">Add a book</button> 
-    </form>
-</div>
 
-<div>
-    <p>Sort by: <p>
+<div class="container mt-3">
+    <div class="row mt d-flex">Sort by:
     <form action="/sort" method="post" class="d-flex gap-2">
         <select class="form-select" name="sortByField" aria-label="Sort by">
             <option value="inputDate">Date</option>
@@ -26,8 +21,11 @@
         <% if (listItems.length === 0) { %>
             <p>No book reviews yet. Click "Add a book" to create your first review!</p>
         <% } else { %>
+        <div class="carousel-container d-flex">
+            <button class="nav-btn prev" id="prevBtn">←</button>
+            <div class="scroll-wrapper" id="scroll-wrapper">
             <% listItems.forEach(item => { %>
-                <div class="col-lg-3 mb-3 card">
+                <div class="mb-3 card">
                     <img src="<%= item.url %>" class="rounded-3 img-fluid text-center" alt="<%= item.name %>" loading="lazy">
                     <p></p>
                     <div style="height: 70px" class="align-content-center"><h4 class="text-center"><%= item.name %></h4></div>
@@ -49,7 +47,11 @@
                     </div> 
                 </div>
             <% })} %>
+            </div>
+            <button class="nav-btn next" id="nextBtn">→</button>
+        </div>
     </div> 
 </div> 
+<script src="/js/carousel.js"></script>
 <%- include('partials/footer.ejs'); -%>
 

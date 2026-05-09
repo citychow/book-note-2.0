@@ -3,9 +3,10 @@ html {
 }
 
 body {
-  background-color: #ffcaa9;
+  background-color: #f3cece;
   margin: 0;
   padding: 0;
+  font-family: "El Messiri", sans-serif;
 }
 
 /* .container {
@@ -15,11 +16,22 @@ body {
 } */
 
 .card {
-  background-color: #fff;
+  flex: 0 0 250px; /* Shows roughly 5 cards at once */
+  min-width: 200px;
+  height: auto;
+  background: linear-gradient(135deg, #e399de 0%, #e8e8c2 100%);
+  background-size: 400% 400%;
+  scroll-snap-align: start;
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 20px;
   margin: 20px;
+}
+
+@keyframes gradient-animation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 img {
@@ -27,4 +39,53 @@ img {
   max-height: 350px;
   margin: 20px;
   float: center;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  /* overflow: hidden; */
+}
+
+.scroll-wrapper {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px 0;
+  scroll-behavior: smooth; /* Smooth sliding animation */
+  /* scroll-snap-type: x mandatory; */
+  scrollbar-width: none; /* Hide scrollbar */
+}
+
+.scroll-wrapper::-webkit-scrollbar { display: none; }
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+
+  border: none;
+  font-size: 18px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  justify-content: center;
+}
+
+.nav-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.nav-btn.hidden {
+    opacity: 0;
+    pointer-events: none; /* Prevents clicking when invisible */
+}
+
+.prev {
+  left: 10px;
+}
+.next {
+  right: 10px;
 }
