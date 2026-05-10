@@ -1,8 +1,10 @@
 <%- include('partials/header.ejs'); -%>
 
-<div class="container mt-3">
-    <div class="row mt d-flex">Sort by:
-    <form action="/sort" method="post" class="d-flex gap-2">
+
+    <div class="flex-row mt d-flex align-items-center justify-content-between">
+    <div> Today is <%= today %> (<%= dayName %>). </div>
+    <div><form action="/sort" method="post" class="d-flex align-items-center justify-content-end">
+        Sort by:
         <select class="form-select" name="sortByField" aria-label="Sort by">
             <option value="inputDate">Date</option>
             <option value="rating">Rating</option>
@@ -13,8 +15,10 @@
             <option value="desc">Descending</option>
         </select>
         <button type="submit" class="btn btn-secondary" name="sortButton">Apply</button>
-    </form>
-</div>
+    </form></div>
+    </div>
+    </div>
+
 
 <div class="container mt-4">
     <div class="row mt-2 d-flex justify-content-center">
@@ -28,13 +32,13 @@
                 <div class="mb-3 card">
                     <img src="<%= item.url %>" class="rounded-3 img-fluid text-center" alt="<%= item.name %>" loading="lazy">
                     <p></p>
-                    <div style="height: 70px" class="align-content-center"><h4 class="text-center"><%= item.name %></h4></div>
+                    <div class="align-content-center"><h4 class="text-center"><%= item.name %></h4></div>
                     <div class="row d-flex mb-2"> 
                         <div class="col-6"> Rating: <%= item.rating %> / 10  </div>
                         <div class="col-6 text-end"><small><em><%= item.inputDate %></em></small></div>
                     </div>
                     <div class="row d-flex mb-2">
-                        <div class="col-12 overflow-hidden" style="height: 75px;"> <%= item.review %> </div>
+                        <div class="col-12 overflow-hidden"> <%= item.review %> </div>
                     </div>
                 <p> View more </p>
                     <div class="btn-group"> 

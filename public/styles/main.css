@@ -19,7 +19,8 @@ body {
   flex: 0 0 250px; /* Shows roughly 5 cards at once */
   min-width: 200px;
   height: auto;
-  background: linear-gradient(135deg, #e399de 0%, #e8e8c2 100%);
+  /* background: linear-gradient(135deg, #e399de 0%, #e8e8c2 100%); */
+  background: transparent;
   background-size: 400% 400%;
   scroll-snap-align: start;
   border-radius: 10px;
@@ -88,4 +89,12 @@ img {
 }
 .next {
   right: 10px;
+}
+
+.btn-group {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
