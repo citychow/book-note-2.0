@@ -19,12 +19,12 @@
     </div>
     <div class="mb-3">
         <label for="review" class="form-label">Review</label>
-        <textarea class="form-control" id="review" name="review"><%= review %></textarea>
+        <textarea class="form-control" id="review" name="review" style="height: 150px;"><%= review %></textarea>
     </div>
-    <button type="submit" class="btn btn-outline-primary" name="editItemId" value="<%= id %>">Save Changes</button>
-    
+    <button type="submit" class="btn btn-outline-primary" name="editItemId" value="<%= id %>">Save Changes</button> 
 </form>
 <form action="/" onsubmit="return confirm('All changes will be discarded. \nAre you sure?');" method="get">
     <button type="submit" class="btn btn-outline-secondary">Discard Changes</button>
 </form>
+
 <%- include('partials/footer.ejs'); -%>

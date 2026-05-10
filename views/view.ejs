@@ -1,0 +1,17 @@
+<%- include('partials/header.ejs'); -%>
+<h2 class="mt-4"> Review of <em><%= bookname %></em> </h2>
+
+    <div class="mb-3 d-flex">
+        <div class="col-1">Book Name:</div> <div class="col-11"><%= bookname %></div>
+    </div>
+    <div class="mb-3 d-flex">
+        <div class="col-1">Rating:</div> <div class="col-11"><%= rating %> / 10</div>
+    </div>
+    <div class="mb-3 d-flex">
+        <div class="col-1">Date:</div> <div class="col-11"><%= date %></div>
+    </div>
+    <div class="mb-3"> 
+        Review: <p><%= review %></p>
+    </div>
+    
+<%- include('partials/footer.ejs'); -%>

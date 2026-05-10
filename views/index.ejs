@@ -1,16 +1,18 @@
 <%- include('partials/header.ejs'); -%>
 
 
-    <div class="flex-row mt d-flex align-items-center justify-content-between">
-    <div> Today is <%= today %> (<%= dayName %>). </div>
-    <div><form action="/sort" method="post" class="d-flex align-items-center justify-content-end">
-        Sort by:
-        <select class="form-select" name="sortByField" aria-label="Sort by">
+    <div class="mt d-flex align-items-center justify-content-between">
+    <div><form class="d-flex ms-auto align-items-center" role="search" id="search-form">
+        <input class="form-control me-2" type="search" placeholder="Type Book Name to search..." id="search-input" aria-label="Search">
+    </form></div>
+    <div><form action="/sort" method="post" class="d-flex align-items-center justify-content-end text-nowrap">
+    Sort by:
+        <select class="form-select" name="sortByField" aria-label="field">
             <option value="inputDate">Date</option>
             <option value="rating">Rating</option>
             <option value="name">Book Name</option>
         </select>
-        <select class="form-select" name="sortOrder" aria-label="Order">
+        <select class="form-select" name="sortOrder" aria-label="order">
             <option value="asc">>Ascending</option>
             <option value="desc">Descending</option>
         </select>
@@ -20,7 +22,7 @@
     </div>
 
 
-<div class="container mt-4">
+<div class="container mt-4" id="book-container">
     <div class="row mt-2 d-flex justify-content-center">
         <% if (listItems.length === 0) { %>
             <p>No book reviews yet. Click "Add a book" to create your first review!</p>
@@ -30,18 +32,21 @@
             <div class="scroll-wrapper" id="scroll-wrapper">
             <% listItems.forEach(item => { %>
                 <div class="mb-3 card">
-                    <img src="<%= item.url %>" class="rounded-3 img-fluid text-center" alt="<%= item.name %>" loading="lazy">
-                    <p></p>
-                    <div class="align-content-center"><h4 class="text-center"><%= item.name %></h4></div>
+                    <img src="<%= item.url %>" class="rounded-3 img-fluid text-center img" alt="<%= item.name %>" loading="lazy">
+                    <h4 class="text-center"><%= item.name %></h4>
+                    <div class = "details">
                     <div class="row d-flex mb-2"> 
-                        <div class="col-6"> Rating: <%= item.rating %> / 10  </div>
-                        <div class="col-6 text-end"><small><em><%= item.inputDate %></em></small></div>
+                        <div class="col-6">Rating: <%= item.rating %></div>
+                        <div class="col-6 text-end"><%= item.inputDate %></div>
                     </div>
                     <div class="row d-flex mb-2">
-                        <div class="col-12 overflow-hidden"> <%= item.review %> </div>
+                        <div class="line-clamp"> <em><%= item.review %></em> </div>
                     </div>
-                <p> View more </p>
+                    </div>
                     <div class="btn-group"> 
+                        <form action="/view" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-primary" name="viewItemId" value="<%= item.id %>">View</button>
+                        </form>
                         <form action="/edit" method="post" style="display: inline;">
                             <button type="submit" class="btn btn-sm btn-outline-secondary" name="editItemId" value="<%= item.id %>">Edit</button>
                         </form> 

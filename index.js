@@ -75,7 +75,6 @@ async function sortBy(list, sortByField, sortOrder) {
 //   });
     return list;
 }
-
 //Sort route
 app.post('/sort', async (req, res) => {
     const sortByField = req.body.sortByField;
@@ -95,6 +94,19 @@ app.post('/new', (req, res) => {
     dayName: day,
   });
 });
+
+//function to search based on book name
+async function searchByName(list, searchTerm) {
+    const {data, error} = await supabase.from('book').select('*').ilike('name', `%${searchTerm}%`);
+    if (error) {
+        console.error("Error fetching search results from Supabase:", error);
+    } else {
+        list = data;
+        console.log("Search results fetched from Supabase:", data);
+    }
+    return list;
+}
+
 
 
 //log new data to console and redirect to home
@@ -116,6 +128,24 @@ app.post('/save', async (req, res) => {
         console.log(err);
         return res.status(500).send("Error saving data to database."); // Send error response if insertion fails
     }       
+});
+
+app.post('/view', async (req, res) => {
+    const id = req.body.viewItemId;
+    try {
+        const {data} = await supabase.from('book')
+        .select('*').eq('id', id);
+        res.render("view.ejs", {
+            today:  date,
+            dayName: day,
+            bookname:  data[0].name,
+            rating: data[0].rating,
+            date: data[0].inputDate,
+            review: data[0].review
+        });
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 //Delete item route

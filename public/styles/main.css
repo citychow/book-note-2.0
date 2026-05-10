@@ -98,3 +98,28 @@ img {
   justify-content: center;
   gap: 10px;
 }
+
+footer {
+  position: absolute;
+  bottom: 20px;
+}
+
+.details {
+  font-size: smaller;
+  height: 120px;
+}
+
+.review-row {
+  height: 50px;
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Change this number to your desired line count */
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+
+form {
+  display: inline;
+}
