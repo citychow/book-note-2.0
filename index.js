@@ -95,17 +95,17 @@ app.post('/new', (req, res) => {
   });
 });
 
-//function to search based on book name
-async function searchByName(list, searchTerm) {
-    const {data, error} = await supabase.from('book').select('*').ilike('name', `%${searchTerm}%`);
-    if (error) {
-        console.error("Error fetching search results from Supabase:", error);
-    } else {
-        list = data;
-        console.log("Search results fetched from Supabase:", data);
-    }
-    return list;
-}
+// //function to search based on book name
+// async function searchByName(list, searchTerm) {
+//     const {data, error} = await supabase.from('book').select('*').ilike('name', `%${searchTerm}%`);
+//     if (error) {
+//         console.error("Error fetching search results from Supabase:", error);
+//     } else {
+//         list = data;
+//         console.log("Search results fetched from Supabase:", data);
+//     }
+//     return list;
+// }
 
 
 

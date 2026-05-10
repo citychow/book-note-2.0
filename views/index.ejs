@@ -2,7 +2,7 @@
 
 
     <div class="mt d-flex align-items-center justify-content-between">
-    <div><form class="d-flex ms-auto align-items-center" role="search" id="search-form">
+    <div><form class="d-flex align-items-center" role="search" id="search-form">
         <input class="form-control me-2" type="search" placeholder="Type Book Name to search..." id="search-input" aria-label="Search">
     </form></div>
     <div><form action="/sort" method="post" class="d-flex align-items-center justify-content-end text-nowrap">
@@ -62,5 +62,24 @@
     </div> 
 </div> 
 <script src="/js/carousel.js"></script>
+<script>
+    // Add search functionality (book name only)
+    const searchInput = document.getElementById('search-input');
+    const bookContainer = document.getElementById('book-container');
+
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        const cards = bookContainer.querySelectorAll('.card');
+
+        cards.forEach(card => {
+            const title = card.querySelector('h4').textContent.toLowerCase();
+            if (title.includes(query)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+</script>
 <%- include('partials/footer.ejs'); -%>
 
