@@ -104,6 +104,12 @@ footer {
   bottom: 20px;
 }
 
+.title {
+  font-size: larger;
+  height: 50px;
+  align-content: center;
+}
+
 .details {
   font-size: smaller;
   height: 120px;

@@ -3,7 +3,7 @@
 
     <div class="mt d-flex align-items-center justify-content-between">
     <div><form class="d-flex align-items-center" role="search" id="search-form">
-        <input class="form-control me-2" type="search" placeholder="Type Book Name to search..." id="search-input" aria-label="Search">
+        <input class="form-control me-2" type="search" placeholder="Search a book..." id="search-input" aria-label="Search">
     </form></div>
     <div><form action="/sort" method="post" class="d-flex align-items-center justify-content-end text-nowrap">
     Sort by:
@@ -33,8 +33,8 @@
             <% listItems.forEach(item => { %>
                 <div class="mb-3 card">
                     <img src="<%= item.url %>" class="rounded-3 img-fluid text-center img" alt="<%= item.name %>" loading="lazy">
-                    <h4 class="text-center"><%= item.name %></h4>
-                    <div class = "details">
+                    <h5 class="title text-center"><%= item.name %></h5>
+                    <div class="details">
                     <div class="row d-flex mb-2"> 
                         <div class="col-6">Rating: <%= item.rating %></div>
                         <div class="col-6 text-end"><%= item.inputDate %></div>

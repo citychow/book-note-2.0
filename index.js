@@ -87,25 +87,49 @@ res.render("index.ejs", {
   });
 });
 
-//Add new item route
-app.post('/new', (req, res) => {
-    res.render("new.ejs", {
+
+//Sign in route
+app.post('/signIn', (req, res) => {
+    res.render("signIn.ejs", {
     today:  date, 
     dayName: day,
   });
 });
 
-// //function to search based on book name
-// async function searchByName(list, searchTerm) {
-//     const {data, error} = await supabase.from('book').select('*').ilike('name', `%${searchTerm}%`);
-//     if (error) {
-//         console.error("Error fetching search results from Supabase:", error);
-//     } else {
-//         list = data;
-//         console.log("Search results fetched from Supabase:", data);
-//     }
-//     return list;
-// }
+//verify sign in info and redirect to new item page
+app.post('/verifySignIn', async (req, res) => {
+    const {email, password} = req.body;
+    const {data,error} = await supabase.auth.signInWithPassword({
+        email,
+        password
+    });
+
+    if (error || !data.user) {
+        console.error("Error signing in:", error);
+        return res.status(401).send("Invalid email or password.");
+    }
+
+    const {data: profile, error: profileError} = await supabase.from('profiles').select('role').eq('id', data.user.id).single();
+    console.log("User profile:", profile);
+    console.log("Profile error:", profileError);
+
+    if (profile?.role === 'admin') {
+        return res.render("new.ejs", {
+            today:  date, 
+            dayName: day,
+        });
+    } else {
+        return res.status(403).send("Access denied. Admins only.");
+    }
+});
+
+//Add new item route
+// app.post('/new', (req, res) => {
+//     res.render("new.ejs", {
+//     today:  date, 
+//     dayName: day,
+//   });
+// });
 
 
 
