@@ -1,7 +1,7 @@
 <%- include('partials/header.ejs'); -%>
 <div class="container justify-content-center align-items-center" id="sign-in-container">
     <h2 class="mt-4"> Please sign in to add a book review </h2>
-    <form action="/verifySignIn" method="post">
+    <form action="/verifySignIn" method="post" id="login"> //form is handled in backend, if =admin, handled changes in frontend login.js
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" id="email" name="email" required>

@@ -17,9 +17,16 @@
     <div><h1>Book Note</h1>
      <div> Today is <%= today %> (<%= dayName %>). </div></div>
     <div>
+    <% if (!isAdmin) { %>
     <form action="/signIn" method="post">
-        <button type="submit" class="btn btn-light">Sign in to add a book</button> 
+        <button type="submit" class="btn btn-light">Sign in</button> 
     </form>
+    <% } %>
+    <% if (isAdmin) { %>
+    <form action="/new" method="post">
+        <button type="submit" class="btn btn-light">Add New Book</button> 
+    </form>
+    <% } %>
     </div>
     </div>
 

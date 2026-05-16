@@ -47,12 +47,14 @@
                         <form action="/view" method="post" style="display: inline;">
                             <button type="submit" class="btn btn-sm btn-outline-primary" name="viewItemId" value="<%= item.id %>">View</button>
                         </form>
+                        <% if (isAdmin) { %>
                         <form action="/edit" method="post" style="display: inline;">
                             <button type="submit" class="btn btn-sm btn-outline-secondary" name="editItemId" value="<%= item.id %>">Edit</button>
                         </form> 
                         <form action="/delete" onsubmit="return confirm('The book review of <%= item.name %> will be deleted and cannot be recovered. \nAre you sure?');" method="post" style="display: inline;">
                             <button type="submit" class="btn btn-sm btn-outline-danger" name="deleteItemId" value="<%= item.id %>">Delete</button>
                         </form>
+                            <% } %>
                     </div> 
                 </div>
             <% })} %>
@@ -72,7 +74,7 @@
         const cards = bookContainer.querySelectorAll('.card');
 
         cards.forEach(card => {
-            const title = card.querySelector('h4').textContent.toLowerCase();
+            const title = card.querySelector('h5').textContent.toLowerCase();
             if (title.includes(query)) {
                 card.style.display = '';
             } else {

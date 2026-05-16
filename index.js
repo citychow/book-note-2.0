@@ -1,4 +1,5 @@
 import express from "express";
+import session from "express-session"; //cookies for session management
 import bodyParser from "body-parser";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -16,6 +17,14 @@ app.use(express.static(__dirname + '/public')); // allow access to static files 
 
 app.use(express.urlencoded({ extended: true })); // to parse URL-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// enable sessions management with cookies
+app.use(session({
+    cookies: {maxAge: 60000*30}, //session expires in 30mins
+    secret: 'test-secret-key', // hash session. Express for temperory use, should be stored in env variable for production
+    resave: false,
+    saveUninitialized: false
+}));
 
 //enable dynamic date display
 
@@ -49,6 +58,7 @@ app.get('/', async (req, res) => {
         today:  date, 
         dayName: day,
         listItems: list,
+        isAdmin: req.session.isAdmin || false // Pass admin status to the template
     });
     // renderReviews(list); //handle rendering in EJS
 });
@@ -84,6 +94,7 @@ res.render("index.ejs", {
     today:  date, 
     dayName: day,
     listItems: sortedList,
+    isAdmin: req.session.isAdmin || false
   });
 });
 
@@ -93,6 +104,7 @@ app.post('/signIn', (req, res) => {
     res.render("signIn.ejs", {
     today:  date, 
     dayName: day,
+    isAdmin: req.session.isAdmin || false
   });
 });
 
@@ -106,30 +118,29 @@ app.post('/verifySignIn', async (req, res) => {
 
     if (error || !data.user) {
         console.error("Error signing in:", error);
-        return res.status(401).send("Invalid email or password.");
+        return res.status(401).send("Invalid credential.");
     }
 
     const {data: profile, error: profileError} = await supabase.from('profiles').select('role').eq('id', data.user.id).single();
-    console.log("User profile:", profile);
-    console.log("Profile error:", profileError);
+    // console.log("User profile:", profile);
+    // console.log("Profile error:", profileError);
 
     if (profile?.role === 'admin') {
-        return res.render("new.ejs", {
-            today:  date, 
-            dayName: day,
-        });
+        req.session.isAdmin = true; // Set session variable to indicate admin status
+    return res.redirect('/'); // Redirect to home after successful sign-in
     } else {
         return res.status(403).send("Access denied. Admins only.");
     }
 });
 
-//Add new item route
-// app.post('/new', (req, res) => {
-//     res.render("new.ejs", {
-//     today:  date, 
-//     dayName: day,
-//   });
-// });
+// Add new item route
+app.post('/new', (req, res) => {
+    res.render("new.ejs", {
+    today:  date, 
+    dayName: day,
+    isAdmin: req.session.isAdmin || false
+  });
+});
 
 
 
@@ -202,7 +213,8 @@ app.post('/edit', async (req, res) => {
         rating: data[0].rating,
         date: data[0].inputDate,
         review: data[0].review,
-        id: data[0].id
+        id: data[0].id,
+        isAdmin: req.session.isAdmin || false
     })} catch (err) { 
         console.log(err);
     }
@@ -233,6 +245,9 @@ app.post('/saveEdit', async (req, res) => {
         console.log(err);
     }
     res.redirect('/');
+    res.render({
+        isAdmin: req.session.isAdmin || false
+    })
 });
 
 app.listen(3000, () => {
