@@ -176,7 +176,8 @@ app.post('/view', async (req, res) => {
             bookname:  data[0].name,
             rating: data[0].rating,
             date: data[0].inputDate,
-            review: data[0].review
+            review: data[0].review,
+            isAdmin: req.session.isAdmin || false
         });
     } catch (err) {
         console.log(err);
