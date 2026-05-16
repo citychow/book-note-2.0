@@ -13,7 +13,7 @@ const app = express();
 const port = 3000;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.use(express.static(__dirname + '/public')); // allow access to static files in public folder
+app.use(express.static(__dirname + '/public')); // allow access to static files in public folder, serve this as root.
 
 app.use(express.urlencoded({ extended: true })); // to parse URL-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));

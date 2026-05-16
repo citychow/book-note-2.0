@@ -1,9 +1,11 @@
 html {
   padding: 2%;
+  color: white;
 }
 
 body {
-  background-color: #f3cece;
+  /* background-color: #f3cece; */
+  color: white;
   margin: 0;
   padding: 0;
   font-family: "El Messiri", sans-serif;
@@ -21,6 +23,7 @@ body {
   height: auto;
   /* background: linear-gradient(135deg, #e399de 0%, #e8e8c2 100%); */
   background: transparent;
+  opacity: 0.8;
   background-size: 400% 400%;
   scroll-snap-align: start;
   border-radius: 10px;
@@ -128,4 +131,20 @@ footer {
 
 form {
   display: inline;
+}
+
+.admin-only {
+  display: none;
+}
+
+/* Canva background styles */
+
+#background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Layer structure priority placement */
+    background-color: #0b1121; /* High-fidelity deep workspace slate background */
 }
