@@ -5,12 +5,15 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import env from "dotenv";
 import { createClient } from "@supabase/supabase-js";
+import helmet from "helmet"; //hide vulnerabilities in http headers for production
 
 env.config();
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 const app = express();
-const port = 3000;
+app.use(helmet()); // Use Helmet for security headers in production
+// const port = 3000; only in local
+const PORT = process.env.PORT || 3000;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.static(__dirname + '/public')); // allow access to static files in public folder, serve this as root.
@@ -20,8 +23,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // enable sessions management with cookies
 app.use(session({
-    cookies: {maxAge: 60000*30}, //session expires in 30mins
-    secret: 'test-secret-key', // hash session. Express for temperory use, should be stored in env variable for production
+    cookie: {
+        maxAge: 60000*30, //session expires in 30mins
+        // add layer for producttion
+        httpOnly: true, // Mitigate XSS attacks by preventing client-side access to the cookie
+        secure: true, // Ensure cookies are only sent over HTTPS in production
+        sameSite: 'lax' // Protect against CSRF attacks by restricting cross-site cookie sending
+    }, 
+    // secret: 'test-secret-key', 
+    // hash session. Express for temperory use, should be stored in env variable for production
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
@@ -251,7 +262,17 @@ app.post('/saveEdit', async (req, res) => {
     })
 });
 
-app.listen(3000, () => {
-  console.log(`Example app listening on port ${port}`)
+// Generic error handler for production optimisation, to avoid sending stack trace to client and log error in server console instead
+app.use((err, req, res, next) => {
+  console.error(err.stack); // Keep this in your server console logs
+  
+  // Do NOT send err.stack to the client
+  res.status(500).render('error', { 
+    message: 'Something went wrong on our end. Please try again later.' 
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`)
 //   console.log(`Today is ${today.toDateString()}`);
 })
